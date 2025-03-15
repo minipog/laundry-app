@@ -1,0 +1,146 @@
+@import './base.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+/* #root {
+} */
+
+.app {
+  color: var(--color-text);
+  background: var(--color-background-mute);
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+.logo {
+  -webkit-user-drag: none;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 1.2em #6988e6aa);
+}
+
+.header {
+  margin-bottom: 74px;
+  background: var(--ev-c-header-bg);
+}
+
+.businessName {
+  font-size: 28px;
+  line-height: 32px;
+  color: var(--ev-c-text-1);
+  font-weight: 600;
+  margin: 0 10px;
+}
+
+.footer {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 12px;
+  background: var(--ev-c-footer-bg);
+}
+
+.menu {
+  /* background: var(--ev-c-menu-1); */
+  background: linear-gradient(var(--ev-c-menu-3), var(--ev-c-menu-1));
+  height: calc(100vh - 74px);
+  padding: 0;
+}
+
+.menu a {
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  border: 1px solid transparent;
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 0 20px;
+  line-height: 38px;
+  border-color: var(--ev-button-alt-border);
+  color: var(--ev-button-alt-text);
+  background-color: var(--ev-button-alt-bg);
+}
+
+.menu a:hover,
+.menu a:focus {
+  border-color: var(--ev-button-alt-hover-border);
+  color: var(--ev-button-alt-hover-text);
+  background-color: var(--ev-button-alt-hover-bg);
+}
+
+.accordion-button {
+  background-color: transparent !important;
+  line-height: 32px;
+  padding: 2px;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+}
+
+.accordion-button:not(.collapsed) {
+  color: darkseagreen;
+}
+
+.versions {
+  position: absolute;
+  bottom: 30px;
+  margin: 0 auto;
+  padding: 15px 0;
+  font-family: 'Menlo', 'Lucida Console', monospace;
+  display: inline-flex;
+  overflow: hidden;
+  align-items: center;
+  border-radius: 22px;
+  background-color: #202127;
+  backdrop-filter: blur(24px);
+}
+
+.versions li {
+  display: block;
+  float: left;
+  border-right: 1px solid var(--ev-c-gray-1);
+  padding: 0 20px;
+  font-size: 14px;
+  line-height: 14px;
+  opacity: 0.8;
+  &:last-child {
+    border: none;
+  }
+}
+
+code {
+  font-weight: 600;
+  padding: 3px 5px;
+  border-radius: 2px;
+  background-color: var(--color-background-mute);
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    SF Mono,
+    Menlo,
+    Consolas,
+    Liberation Mono,
+    monospace;
+  font-size: 85%;
+}
+
+@media (max-width: 720px) {
+  .text {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 620px) {
+  .versions {
+    display: none;
+  }
+}
+
+@media (max-width: 350px) {
+  .tip,
+  .actions {
+    display: none;
+  }
+}

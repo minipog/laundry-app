@@ -1,40 +1,48 @@
 import CardGroup from 'react-bootstrap/CardGroup'
 import MachineCard from './MachineCard'
 import MachineManageModal from './MachineManageModal'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-function Machines({ machines = [] }) {
+function Machines() {
   const [show, setShow] = useState(false)
-  const [machineData, setMachineData] = useState(null)
+  const [machineData, setMachineData] = useState([])
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const data = await window.api.getEquipment()
+        setMachineData(JSON.parse(data))
+      } catch (err) {
+        console.log(err)
+      }
+    })()
+  }, [])
 
   const handleMachineManageModal = (visibility, machine) => {
-    setMachineData(machine)
+    // setMachineData(machine)
     setShow(visibility)
   }
 
-  if (!machines.length) return 'Nothing to show'
+  if (!machineData.length) return 'Nothing to show'
 
   return (
     <>
-      <MachineManageModal show={show} setShow={setShow} machine={machineData} />
+      <MachineManageModal show={show} setShow={setShow} />
       <CardGroup className="me-3">
-        {machines.map((machine) => {
-          const { model, pricePerWash, isOperational } = machine.data
-          const locationName = ''
-
+        {machineData.map((machine) => {
           return (
             <MachineCard
-              key={machine.id}
-              variant={isOperational ? '' : 'warning'}
-              header={locationName}
+              key={machine.__id}
+              variant={machine.isOperational ? '' : 'warning'}
+              header={machine.locationName || ''}
               title={`${machine.type} #${machine.plateNumber}`}
               info={[
-                `PPW: ${pricePerWash}`,
-                `Capacity: ${model.capacity}kg`,
-                `Service times: ${model.serviceHistory.length}`,
-                `Operational: ${isOperational ? 'Yes' : 'No'}`
+                `PPW: ${machine.pricePerCycle}`,
+                `Capacity: ${machine.capacity}kg`,
+                `Service times: ${machine.serviceHistory.length}`,
+                `Operational: ${machine.isOperational ? 'Yes' : 'No'}`
               ]}
-              handleModal={() => handleMachineManageModal(true, { ...machine, locationName })}
+              handleModal={() => handleMachineManageModal(true)}
             />
           )
         })}

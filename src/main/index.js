@@ -39,8 +39,13 @@ function createWindow() {
 }
 
 const businessManager = new BusinessManager()
+
 businessManager.once('ready', () => {
   console.log('- Database is ready for use')
+})
+
+businessManager.on('error', (errorMessage) => {
+  businessManager.terminate({ reason: errorMessage })
 })
 
 // This method will be called when Electron has finished
@@ -81,7 +86,7 @@ app.whenReady().then(() => {
   // }
 
   // IPC handlers
-  ipcMain.handle('business:getGeneralData', () => businessManager.getGeneralData())
+  ipcMain.handle('business:getEquipment', (_, query) => businessManager.getEquipment(query))
 
   createWindow()
 
@@ -95,11 +100,11 @@ app.whenReady().then(() => {
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    businessManager.terminate()
-    app.quit()
-  }
+app.on('window-all-closed', async () => {
+  if (process.platform === 'darwin') return
+
+  await businessManager.terminate()
+  app.quit()
 })
 
 // In this file you can include the rest of your app's specific main process

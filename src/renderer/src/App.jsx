@@ -8,21 +8,6 @@ import Footer from './components/Footer'
 import Menu from './components/Menu'
 
 function App() {
-  // const [currentPage, setCurrentPage] = useState({ name: 'dashboard', data: {}, isLoading: true })
-
-  // useEffect(() => {
-  //   ;(async () => {
-  //     try {
-  //       setCurrentPage({ ...currentPage, isLoading: true })
-  //       const data = await window.api.getGeneralData()
-  //       setCurrentPage({ ...currentPage, data, isLoading: false })
-  //       console.log(currentPage)
-  //     } catch (err) {
-  //       console.log(err)
-  //     }
-  //   })()
-  // }, [currentPage.name])
-
   return (
     <Container className="app vh-100" fluid>
       <Row>

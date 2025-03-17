@@ -10,12 +10,16 @@ class BusinessManager extends EventEmitter {
   }
 
   async initialize() {
-    this.db = await dbConnect()
-    this.expenses = this.db.model('Expenses', expenseSchema)
-    this.equipmentServices = this.db.model('EquipmentServices', equipmentServiceSchema)
-    this.equipment = this.db.model('Equipment', equipmentSchema)
-    this.locations = this.db.model('Locations', locationSchema)
-    this.emit('ready')
+    try {
+      this.db = await dbConnect()
+      this.expenses = this.db.model('Expenses', expenseSchema)
+      this.equipmentServices = this.db.model('EquipmentServices', equipmentServiceSchema)
+      this.equipment = this.db.model('Equipment', equipmentSchema)
+      this.locations = this.db.model('Locations', locationSchema)
+      this.emit('ready')
+    } catch (err) {
+      this.emit('error', err.message)
+    }
   }
 
   async addEquipment(props = {}) {
@@ -23,9 +27,16 @@ class BusinessManager extends EventEmitter {
     console.log(equipment)
   }
 
-  async terminate() {
+  async getEquipment(query) {
+    const equipment = await this.equipment.find({})
+    return JSON.stringify(equipment)
+  }
+
+  async terminate({ reason } = {}) {
+    if (!this.db) return
+
     await this.db.close()
-    console.log('MongoDB: Connection closed')
+    console.log(reason, '\nMongoDB: Connection closed')
   }
 }
 

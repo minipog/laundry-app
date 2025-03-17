@@ -9,13 +9,10 @@ export default async function dbConnect() {
       .asPromise()
 
     await conn.db.admin().command({ ping: 1 })
-    console.log('Pinged your deployment. You successfully connected to MongoDB!')
+    console.log('MongoDB: Deployment pinged, connected successfully')
 
     return conn
   } catch (err) {
     throw new Error(err)
-  } finally {
-    // Runs .close() on all connections in parallel.
-    await mongoose.disconnect()
   }
 }

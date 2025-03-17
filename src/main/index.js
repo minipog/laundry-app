@@ -3,6 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import BusinessManager from './lib'
+// eslint-disable-next-line no-unused-vars
 import { Types } from 'mongoose'
 
 function createWindow() {
@@ -37,6 +38,11 @@ function createWindow() {
   }
 }
 
+const businessManager = new BusinessManager()
+businessManager.once('ready', () => {
+  console.log('- Database is ready for use')
+})
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -51,33 +57,28 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  const businessManager = new BusinessManager()
-  businessManager.once('ready', async () => {
-    console.log('- Database is ready for use')
-
-    try {
-      await businessManager.addEquipment({
-        lid: new Types.ObjectId('67d4b72ac7b669b35f0ddf77'),
-        type: 'Washing Machine',
-        serialNumber: '',
-        name: 'Machine One',
-        capacity: 8,
-        minutesPerCycle: 45,
-        powerUsagePerCycle: 0,
-        waterUsagePerCycle: 0,
-        pricePerCycle: 25,
-        ownership: {
-          type: 'Lease',
-          // lease: { provider: String, startDate: Date, endDate: Date },
-          cost: 200
-        },
-        // serviceHistory: { type: [equipmentServiceSchema], default: [] },
-        isOperational: true
-      })
-    } catch ({ message }) {
-      console.log(message)
-    }
-  })
+  // try {
+  //   await businessManager.addEquipment({
+  //     lid: new Types.ObjectId('67d4b72ac7b669b35f0ddf77'),
+  //     type: 'Washing Machine',
+  //     serialNumber: '',
+  //     name: 'Machine One',
+  //     capacity: 8,
+  //     minutesPerCycle: 45,
+  //     powerUsagePerCycle: 0,
+  //     waterUsagePerCycle: 0,
+  //     pricePerCycle: 25,
+  //     ownership: {
+  //       type: 'Lease',
+  //       // lease: { provider: String, startDate: Date, endDate: Date },
+  //       cost: 200
+  //     },
+  //     // serviceHistory: { type: [equipmentServiceSchema], default: [] },
+  //     isOperational: true
+  //   })
+  // } catch ({ message }) {
+  //   console.log(message)
+  // }
 
   // IPC handlers
   ipcMain.handle('business:getGeneralData', () => businessManager.getGeneralData())
@@ -96,6 +97,7 @@ app.whenReady().then(() => {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    businessManager.terminate()
     app.quit()
   }
 })

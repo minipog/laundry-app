@@ -22,6 +22,11 @@ class BusinessManager extends EventEmitter {
     const equipment = await this.equipment.create(props)
     console.log(equipment)
   }
+
+  async terminate() {
+    await this.db.close()
+    console.log('MongoDB: Connection closed')
+  }
 }
 
 export default BusinessManager

@@ -8,22 +8,38 @@ import Col from 'react-bootstrap/Col'
 import Badge from 'react-bootstrap/Badge'
 import Accordion from 'react-bootstrap/Accordion'
 import { EQUIPMENT_TYPES, OWNERSHIP_TYPES } from '../../../../main/lib/enums'
-import { saveMachine, getEditableMachineObject } from './actions/saveMachine'
 import saveMachineSchema from './actions/saveMachine.schema'
+import useModal from '../../hooks/useModal'
+import { useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router'
 import { Formik } from 'formik'
 
-function MachineManageModal({ show, setShow, machine }) {
-  if (!machine) return
+function MachineManageModal() {
+  const { handleModal, show, data } = useModal()
+  const { id } = useParams()
+  const navigate = useNavigate()
 
-  const { model } = machine.data
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const content = await window.api.getEquipment({ _id: id })
+        handleModal(true, ...JSON.parse(content))
+      } catch (err) {
+        console.log(err)
+      }
+    })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, navigate])
 
   return (
-    <Modal size="lg" show={show} backdrop="static" keyboard={false} onHide={() => setShow(false)}>
-      <Formik
-        validationSchema={saveMachineSchema}
-        initialValues={getEditableMachineObject(machine)}
-        onSubmit={(values) => saveMachine(machine, values)}
-      >
+    <Modal
+      size="lg"
+      show={show}
+      backdrop="static"
+      keyboard={false}
+      onHide={() => handleModal(false)}
+    >
+      <Formik validationSchema={saveMachineSchema} initialValues={data} onSubmit={console.log}>
         {({ handleSubmit, handleChange, getFieldProps, values, touched, isValid, errors }) => {
           console.log({ values, errors })
 
@@ -33,14 +49,14 @@ function MachineManageModal({ show, setShow, machine }) {
                 <Modal.Title>
                   <Row>
                     <Col>
-                      Machine Management (#{machine.plateNumber} @ {machine.locationName})
+                      Machine Management (#{values.plateNumber} @ {values.locationName})
                     </Col>
                     <Col xs="auto">
                       <Form.Switch
-                        defaultChecked={values.data.isOperational}
-                        isValid={values.data.isOperational}
-                        name="data.isOperational"
-                        label={values.data.isOperational ? 'Operating' : 'Non-operating'}
+                        defaultChecked={values.isOperational}
+                        isValid={values.isOperational}
+                        name="isOperational"
+                        label={values.isOperational ? 'Operating' : 'Non-operating'}
                         onChange={handleChange}
                       />
                     </Col>
@@ -72,7 +88,7 @@ function MachineManageModal({ show, setShow, machine }) {
                         aria-describedby="ig-serial-number"
                         placeholder="xxx-xxx-xxx"
                         onChange={handleChange}
-                        {...getFieldProps('data.model.serialNumber')}
+                        {...getFieldProps('serialNumber')}
                       />
                       <InputGroup.Text id="ig-model-name">Model:</InputGroup.Text>
                       <Form.Control
@@ -80,7 +96,7 @@ function MachineManageModal({ show, setShow, machine }) {
                         aria-describedby="ig-model-name"
                         placeholder="Example Model Name 1"
                         onChange={handleChange}
-                        {...getFieldProps('data.model.name')}
+                        {...getFieldProps('name')}
                       />
                     </InputGroup>
                   </Col>
@@ -94,22 +110,22 @@ function MachineManageModal({ show, setShow, machine }) {
                         aria-describedby="ig-model-capacity"
                         onChange={handleChange}
                         isValid={touched.capacity && !errors.capacity}
-                        {...getFieldProps('data.model.capacity')}
+                        {...getFieldProps('capacity')}
                       />
                       <InputGroup.Text id="ig-model-price-per-wash">PPW:</InputGroup.Text>
                       <Form.Control
                         aria-label="Price per wash"
                         aria-describedby="ig-model-price-per-wash"
                         onChange={handleChange}
-                        isValid={touched.pricePerWash && !errors.pricePerWash}
-                        {...getFieldProps('data.pricePerWash')}
+                        isValid={touched.pricePerCycle && !errors.pricePerCycle}
+                        {...getFieldProps('pricePerCycle')}
                       />
                       <InputGroup.Text id="ig-model-ownership-type">Ownership:</InputGroup.Text>
                       <Form.Select
                         aria-label="Machine type select"
                         aria-describedby="ig-model-ownership-type"
                         onChange={handleChange}
-                        {...getFieldProps('data.model.ownership.type')}
+                        {...getFieldProps('ownership.type')}
                       >
                         {Object.entries(OWNERSHIP_TYPES).map(([_, type]) => (
                           <option key={_} value={type}>
@@ -122,12 +138,12 @@ function MachineManageModal({ show, setShow, machine }) {
                         aria-label="Cost"
                         aria-describedby="ig-model-ownership-cost"
                         onChange={handleChange}
-                        {...getFieldProps('data.model.ownership.cost')}
+                        {...getFieldProps('ownership.cost')}
                       />
                     </InputGroup>
                   </Col>
                 </Row>
-                {values.data.model.ownership.type === OWNERSHIP_TYPES.LEASE && (
+                {values.ownership.type === OWNERSHIP_TYPES.LEASE && (
                   <Row className="mb-3">
                     <InputGroup hasValidation>
                       <InputGroup.Text id="ig-model-lease-provider">
@@ -137,7 +153,7 @@ function MachineManageModal({ show, setShow, machine }) {
                         aria-label="Lease Provider"
                         aria-describedby="ig-model-lease-provider"
                         onChange={handleChange}
-                        {...getFieldProps('data.model.ownership.leaseProvider')}
+                        {...getFieldProps('ownership.lease.provider')}
                       />
                       <InputGroup.Text id="ig-model-lease-date">Lease Date:</InputGroup.Text>
                       <Form.Control
@@ -145,7 +161,7 @@ function MachineManageModal({ show, setShow, machine }) {
                         aria-describedby="ig-model-lease-date"
                         onChange={handleChange}
                         placeholder="MM/DD/YY"
-                        {...getFieldProps('data.model.ownership.leasedAt')}
+                        {...getFieldProps('ownership.lease.startDate')}
                       />
                     </InputGroup>
                   </Row>
@@ -153,22 +169,22 @@ function MachineManageModal({ show, setShow, machine }) {
                 <Row>
                   <Col className="d-flex justify-content-between align-items-start mb-0">
                     <h5 className="text-muted">Service history</h5>
-                    <Badge bg={model.serviceHistory.length ? 'success' : 'secondary'} pill>
-                      {model.serviceHistory.length}
+                    <Badge bg={data.serviceHistory.length ? 'success' : 'secondary'} pill>
+                      {data.serviceHistory.length}
                     </Badge>
                   </Col>
                 </Row>
                 <Row>
                   <Col>
                     <Accordion flush>
-                      {model.serviceHistory.map((service, i) => (
-                        <Accordion.Item key={i} eventKey={service.id}>
+                      {data.serviceHistory.map((service, i) => (
+                        <Accordion.Item key={i} eventKey={service._id}>
                           <Accordion.Header>
                             <Row>
                               <Col>
                                 <span className="text-muted">
                                   [{service.date}] <span className="fw-bold">{service.type}</span>{' '}
-                                  by {service.providerName} ({service.description})
+                                  by {service.provider.name} ({service.description})
                                 </span>
                               </Col>
                             </Row>
@@ -189,7 +205,7 @@ function MachineManageModal({ show, setShow, machine }) {
                 </Row>
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" onClick={() => setShow(false)}>
+                <Button variant="secondary" onClick={() => handleModal(false)}>
                   Close
                 </Button>
                 <Button variant="info" type="submit" disabled={!isValid}>

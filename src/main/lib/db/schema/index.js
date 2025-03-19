@@ -22,8 +22,9 @@ export const equipmentServiceSchema = new Schema({
 export const equipmentSchema = new Schema({
   lid: { type: Schema.Types.ObjectId, required: true },
   type: { type: String, required: true, enum: Object.values(EQUIPMENT_TYPES) },
-  serialNumber: String,
   name: String,
+  serialNumber: String,
+  plateNumber: { type: Number, min: 0 },
   capacity: { type: Number, min: 0 },
   minutesPerCycle: { type: Number, min: 0 },
   powerUsagePerCycle: { type: Number, min: 0 },

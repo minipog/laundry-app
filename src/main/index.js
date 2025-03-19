@@ -3,8 +3,6 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import BusinessManager from './lib'
-// eslint-disable-next-line no-unused-vars
-import { Types } from 'mongoose'
 
 function createWindow() {
   // Create the browser window.

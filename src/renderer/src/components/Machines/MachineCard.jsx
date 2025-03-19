@@ -1,10 +1,11 @@
 import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Button from 'react-bootstrap/Button'
+import { Link } from 'react-router'
 
-function MachineCard({ variant, imgSrc, header, title, text, info, handleModal }) {
+function MachineCard({ id, variant, imgSrc, header, title, text, info }) {
   return (
-    <Card bg={variant} className="mx-2 border-0 shadow-sm">
+    <Card bg={variant} className="mx-2 border-0 shadow-sm" style={{ maxWidth: '18rem' }}>
       {imgSrc && <Card.Img variant="top" src={imgSrc} />}
       {header && <Card.Header>{header}</Card.Header>}
       <Card.Body>
@@ -19,16 +20,15 @@ function MachineCard({ variant, imgSrc, header, title, text, info, handleModal }
             ))}
           </ListGroup>
         )}
-        {handleModal && (
+        <Link to={`/machines/manage/${id}`}>
           <Button
             className="mt-2 float-end"
             variant={variant === 'warning' ? 'danger' : 'info'}
             size="sm"
-            onClick={() => handleModal(true)}
           >
             Manage
           </Button>
-        )}
+        </Link>
       </Card.Body>
     </Card>
   )

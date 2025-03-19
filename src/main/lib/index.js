@@ -1,5 +1,6 @@
 import dbConnect from './db/connection'
 import { expenseSchema, equipmentServiceSchema, equipmentSchema, locationSchema } from './db/schema'
+import { Types } from 'mongoose'
 import { EventEmitter } from 'events'
 
 class BusinessManager extends EventEmitter {
@@ -27,9 +28,13 @@ class BusinessManager extends EventEmitter {
     console.log(equipment)
   }
 
-  async getEquipment(query) {
-    const equipment = await this.equipment.find({})
+  async getEquipment(query = {}) {
+    const equipment = await this.equipment.find(query, { __v: 0 })
     return JSON.stringify(equipment)
+  }
+
+  _makeObjectId(string) {
+    return new Types.ObjectId(`${string}`)
   }
 
   async terminate({ reason } = {}) {

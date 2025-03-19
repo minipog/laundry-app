@@ -26,7 +26,7 @@ function Machines() {
             key={machine._id}
             id={machine._id}
             variant={machine.isOperational ? '' : 'warning'}
-            header={machine.locationName || ''}
+            header={machine.locationName}
             title={`${machine.type} #${machine.plateNumber}`}
             info={[
               `PPC: ${machine.pricePerCycle}`,

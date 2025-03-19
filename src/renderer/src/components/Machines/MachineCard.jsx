@@ -13,9 +13,9 @@ function MachineCard({ id, variant, imgSrc, header, title, text, info }) {
         {text && <Card.Text>{text}</Card.Text>}
         {info && (
           <ListGroup variant="flush">
-            {info.map((v, i) => (
+            {info.map((item, i) => (
               <ListGroup.Item variant={variant} className="p-1 bg-transparent" key={i}>
-                {v}
+                {item}
               </ListGroup.Item>
             ))}
           </ListGroup>

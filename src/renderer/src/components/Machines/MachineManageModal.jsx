@@ -8,39 +8,39 @@ import Col from 'react-bootstrap/Col'
 import Badge from 'react-bootstrap/Badge'
 import Accordion from 'react-bootstrap/Accordion'
 import { EQUIPMENT_TYPES, OWNERSHIP_TYPES } from '../../../../main/lib/enums'
-import saveMachineSchema from './actions/saveMachine.schema'
 import useModal from '../../hooks/useModal'
 import { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useParams } from 'react-router'
 import { Formik } from 'formik'
 
 function MachineManageModal() {
-  const { handleModal, show, data } = useModal()
-  const { id } = useParams()
-  const navigate = useNavigate()
+  const params = useParams()
+  const modal = useModal()
 
   useEffect(() => {
+    console.log('effect')
     ;(async () => {
       try {
-        const content = await window.api.getEquipment({ _id: id })
-        handleModal(true, ...JSON.parse(content))
+        const content = await window.api.getEquipment({ _id: params.id })
+        modal.set(true, ...JSON.parse(content))
       } catch (err) {
         console.log(err)
+        modal.close()
       }
     })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, navigate])
+  }, [params.id, modal.navigate])
 
   return (
     <Modal
       size="lg"
-      show={show}
+      show={modal.show}
       backdrop="static"
       keyboard={false}
-      onHide={() => handleModal(false)}
+      onHide={() => modal.close()}
     >
-      <Formik validationSchema={saveMachineSchema} initialValues={data} onSubmit={console.log}>
-        {({ handleSubmit, handleChange, getFieldProps, values, touched, isValid, errors }) => {
+      <Formik initialValues={modal.data} onSubmit={console.log}>
+        {({ handleSubmit, handleChange, getFieldProps, values, errors }) => {
           console.log({ values, errors })
 
           return (
@@ -81,7 +81,7 @@ function MachineManageModal() {
                     </FloatingLabel>
                   </Col>
                   <Col>
-                    <InputGroup hasValidation>
+                    <InputGroup>
                       <InputGroup.Text id="ig-serial-number">S/N:</InputGroup.Text>
                       <Form.Control
                         aria-label="S/N"
@@ -103,13 +103,12 @@ function MachineManageModal() {
                 </Row>
                 <Row className="mb-3">
                   <Col xs="auto">
-                    <InputGroup hasValidation>
+                    <InputGroup>
                       <InputGroup.Text id="ig-model-capacity">Capacity:</InputGroup.Text>
                       <Form.Control
                         aria-label="Capacity"
                         aria-describedby="ig-model-capacity"
                         onChange={handleChange}
-                        isValid={touched.capacity && !errors.capacity}
                         {...getFieldProps('capacity')}
                       />
                       <InputGroup.Text id="ig-model-price-per-wash">PPW:</InputGroup.Text>
@@ -117,7 +116,6 @@ function MachineManageModal() {
                         aria-label="Price per wash"
                         aria-describedby="ig-model-price-per-wash"
                         onChange={handleChange}
-                        isValid={touched.pricePerCycle && !errors.pricePerCycle}
                         {...getFieldProps('pricePerCycle')}
                       />
                       <InputGroup.Text id="ig-model-ownership-type">Ownership:</InputGroup.Text>
@@ -145,7 +143,7 @@ function MachineManageModal() {
                 </Row>
                 {values.ownership.type === OWNERSHIP_TYPES.LEASE && (
                   <Row className="mb-3">
-                    <InputGroup hasValidation>
+                    <InputGroup>
                       <InputGroup.Text id="ig-model-lease-provider">
                         Lease Provider:
                       </InputGroup.Text>
@@ -169,15 +167,15 @@ function MachineManageModal() {
                 <Row>
                   <Col className="d-flex justify-content-between align-items-start mb-0">
                     <h5 className="text-muted">Service history</h5>
-                    <Badge bg={data.serviceHistory.length ? 'success' : 'secondary'} pill>
-                      {data.serviceHistory.length}
+                    <Badge bg={modal.data.serviceHistory.length ? 'success' : 'secondary'} pill>
+                      {modal.data.serviceHistory.length}
                     </Badge>
                   </Col>
                 </Row>
                 <Row>
                   <Col>
                     <Accordion flush>
-                      {data.serviceHistory.map((service, i) => (
+                      {modal.data.serviceHistory.map((service, i) => (
                         <Accordion.Item key={i} eventKey={service._id}>
                           <Accordion.Header>
                             <Row>
@@ -205,10 +203,10 @@ function MachineManageModal() {
                 </Row>
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" onClick={() => handleModal(false)}>
+                <Button variant="secondary" onClick={() => modal.close()}>
                   Close
                 </Button>
-                <Button variant="info" type="submit" disabled={!isValid}>
+                <Button variant="info" type="submit">
                   Save
                 </Button>
               </Modal.Footer>

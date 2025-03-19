@@ -25,8 +25,7 @@
     "formik": "^2.4.6",
     "lodash": "^4.17.21",
     "mongoose": "^8.12.1",
-    "react-bootstrap": "^2.10.9",
-    "yup": "^1.6.1"
+    "react-bootstrap": "^2.10.9"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^2.0.0",

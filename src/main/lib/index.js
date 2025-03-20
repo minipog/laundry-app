@@ -41,7 +41,7 @@ class BusinessManager extends EventEmitter {
     if (!this.db) return
 
     await this.db.close()
-    console.log(reason, '\nMongoDB: Connection closed')
+    console.log(`MongoDB: Connection closed (${reason})`)
   }
 }
 

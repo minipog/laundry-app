@@ -18,7 +18,6 @@ function MachineManageModal() {
   const modal = useModal()
 
   useEffect(() => {
-    console.log('effect')
     ;(async () => {
       try {
         const content = await window.api.getEquipment({ _id: params.id })

@@ -1,6 +1,7 @@
 import CardGroup from 'react-bootstrap/CardGroup'
 import MachineCard from './MachineCard'
 import { useState, useEffect } from 'react'
+import { Outlet } from 'react-router'
 
 function Machines() {
   const [machines, setMachines] = useState([])
@@ -19,9 +20,9 @@ function Machines() {
   if (!machines.length) return 'Nothing to show'
 
   return (
-    <CardGroup className="me-3">
-      {machines.map((machine) => {
-        return (
+    <>
+      <CardGroup className="me-3">
+        {machines.map((machine) => (
           <MachineCard
             key={machine._id}
             id={machine._id}
@@ -35,9 +36,10 @@ function Machines() {
               `Operational: ${machine.isOperational ? 'Yes' : 'No'}`
             ]}
           />
-        )
-      })}
-    </CardGroup>
+        ))}
+      </CardGroup>
+      <Outlet />
+    </>
   )
 }
 

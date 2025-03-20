@@ -13,14 +13,13 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    children: [{ path: '/', element: <Dashboard /> }]
-  },
-  {
-    path: '/machines',
-    element: <App />,
     children: [
-      { path: '/machines', element: <Machines /> },
-      { path: '/machines/manage/:id', element: <MachineManageModal /> }
+      { index: true, element: <Dashboard /> },
+      {
+        path: '/machines',
+        element: <Machines />,
+        children: [{ path: '/machines/manage/:id', element: <MachineManageModal /> }]
+      }
     ]
   }
 ])

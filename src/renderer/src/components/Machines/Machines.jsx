@@ -1,22 +1,19 @@
 import CardGroup from 'react-bootstrap/CardGroup'
 import MachineCard from './MachineCard'
-import { useState, useEffect } from 'react'
-import { Outlet } from 'react-router'
+import { Outlet, useLoaderData } from 'react-router'
+
+// eslint-disable-next-line react-refresh/only-export-components
+export async function machineLoader() {
+  try {
+    const data = await window.api.getEquipment()
+    return JSON.parse(data)
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 function Machines() {
-  const [machines, setMachines] = useState([])
-
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const data = await window.api.getEquipment()
-        setMachines(JSON.parse(data))
-      } catch (err) {
-        console.log(err)
-      }
-    })()
-  }, [machines.length])
-
+  const machines = useLoaderData()
   if (!machines.length) return 'Nothing to show'
 
   return (

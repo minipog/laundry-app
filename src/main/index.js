@@ -38,8 +38,31 @@ function createWindow() {
 
 const businessManager = new BusinessManager()
 
-businessManager.once('ready', () => {
-  console.log('- Database is ready for use')
+businessManager.once('ready', async () => {
+  console.log('App: Database actions are ready for use')
+
+  // try {
+  //   await businessManager.addEquipment({
+  //     lid: businessManager._makeObjectId('67d4b72ac7b669b35f0ddf77'),
+  //     type: 'Washing Machine',
+  //     serialNumber: '',
+  //     name: 'Machine Three',
+  //     capacity: 8,
+  //     minutesPerCycle: 45,
+  //     powerUsagePerCycle: 0,
+  //     waterUsagePerCycle: 0,
+  //     pricePerCycle: 25,
+  //     ownership: {
+  //       type: 'Lease',
+  //       // lease: { provider: String, startDate: Date, endDate: Date },
+  //       cost: 200
+  //     },
+  //     // serviceHistory: { type: [equipmentServiceSchema], default: [] },
+  //     isOperational: false
+  //   })
+  // } catch ({ message }) {
+  //   console.log(message)
+  // }
 })
 
 businessManager.on('error', (errorMessage) => {
@@ -59,29 +82,6 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
-
-  // try {
-  //   await businessManager.addEquipment({
-  //     lid: new Types.ObjectId('67d4b72ac7b669b35f0ddf77'),
-  //     type: 'Washing Machine',
-  //     serialNumber: '',
-  //     name: 'Machine One',
-  //     capacity: 8,
-  //     minutesPerCycle: 45,
-  //     powerUsagePerCycle: 0,
-  //     waterUsagePerCycle: 0,
-  //     pricePerCycle: 25,
-  //     ownership: {
-  //       type: 'Lease',
-  //       // lease: { provider: String, startDate: Date, endDate: Date },
-  //       cost: 200
-  //     },
-  //     // serviceHistory: { type: [equipmentServiceSchema], default: [] },
-  //     isOperational: true
-  //   })
-  // } catch ({ message }) {
-  //   console.log(message)
-  // }
 
   // IPC handlers
   ipcMain.handle('business:getEquipment', (_, query) => businessManager.getEquipment(query))

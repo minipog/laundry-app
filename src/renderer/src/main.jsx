@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom/client'
 
 import App from './App'
 import Dashboard from './components/Dashboard/Dashboard'
-import Machines from './components/Machines/Machines'
+import Machines, { machineLoader } from './components/Machines/Machines'
 import MachineManageModal from './components/Machines/MachineManageModal'
 
 const router = createBrowserRouter([
@@ -18,6 +18,8 @@ const router = createBrowserRouter([
       {
         path: '/machines',
         element: <Machines />,
+        loader: machineLoader,
+        hydrateFallbackElement: <div>Loading...</div>,
         children: [{ path: '/machines/manage/:id', element: <MachineManageModal /> }]
       }
     ]

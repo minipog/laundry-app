@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router'
 
 function useModal() {
   const [show, setShow] = useState(false)
-  const [data, setData] = useState(null)
+  const [data, setData] = useState({})
   const navigate = useNavigate()
 
   return {
@@ -13,7 +13,7 @@ function useModal() {
       setShow(isVisible)
     },
     close: function () {
-      this.set(false, null, -1)
+      this.set(false, data, -1)
     },
     show,
     data,

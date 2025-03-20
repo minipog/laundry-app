@@ -2,7 +2,10 @@ import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
-const api = { getEquipment: (query) => ipcRenderer.invoke('business:getEquipment', query) }
+const api = {
+  getEquipment: (query) => ipcRenderer.invoke('business:getEquipment', query),
+  addEquipment: (values, isNew) => ipcRenderer.invoke('business:addEquipment', values, isNew)
+}
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

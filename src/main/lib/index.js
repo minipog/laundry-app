@@ -23,9 +23,13 @@ class BusinessManager extends EventEmitter {
     }
   }
 
-  async addEquipment(props = {}) {
-    const equipment = await this.equipment.create(props)
-    console.log(equipment)
+  async addEquipment(props = {}, isNew) {
+    if (isNew) return await this.equipment.create(props)
+
+    const equipment = await this.equipment.findOne({ _id: props._id })
+    Object.entries(props).forEach(([key, value]) => equipment.$set(key, value))
+    await equipment.save()
+    return { ok: true }
   }
 
   async getEquipment(query = {}) {

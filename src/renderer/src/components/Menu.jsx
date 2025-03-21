@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import { NavLink } from 'react-router'
+import Loading from './Loading'
 
 function Menu() {
   const links = [{ label: 'Dashboard', path: '/' }, 'Locations', 'Machines', 'Inventory', 'Notes']
@@ -10,7 +11,16 @@ function Menu() {
       <Nav defaultActiveKey={0} className="flex-column">
         {links.map((link, i) => (
           <NavLink key={i} to={link.path || `/${link.toLowerCase()}`}>
-            {link.label || link}
+            {({ isPending }) => (
+              <>
+                {link.label || link}
+                {isPending && (
+                  <span className="float-end">
+                    <Loading animation="border" size="sm" />
+                  </span>
+                )}
+              </>
+            )}
           </NavLink>
         ))}
       </Nav>

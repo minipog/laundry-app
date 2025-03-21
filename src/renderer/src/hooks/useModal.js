@@ -1,19 +1,21 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate, useRevalidator } from 'react-router'
 
 function useModal() {
   const [show, setShow] = useState(false)
   const [data, setData] = useState({})
   const navigate = useNavigate()
+  const revalidator = useRevalidator()
 
   return {
-    set: (isVisible, content, to) => {
+    set: (isVisible, content) => {
       if (content) setData(content)
-      if (to) navigate(to)
       setShow(isVisible)
     },
-    close: function () {
-      this.set(false, data, -1)
+    close: async function (revalidate) {
+      if (revalidate) await revalidator.revalidate()
+      this.set(false, data)
+      navigate(-1)
     },
     show,
     data,

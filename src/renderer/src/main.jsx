@@ -14,21 +14,22 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    hydrateFallbackElement: <Loading defaultSpinner />,
     children: [
       { index: true, element: <Dashboard /> },
       {
         path: '/machines',
         element: <Machines />,
         loader: machineLoader,
-        hydrateFallbackElement: <div>Loading...</div>,
         children: [{ path: '/machines/manage/:id', element: <MachineManageModal /> }]
       }
     ]
-  }
+  },
+  { path: '*', element: <div className="d-flex flex-column align-items-center">Not Found</div> }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} fallbackElement={<Loading />} />
+    <RouterProvider router={router} />
   </React.StrictMode>
 )

@@ -32,7 +32,7 @@ function MachineManageModal() {
   async function saveMachine(values) {
     try {
       const { ok } = await window.api.addEquipment(values, false)
-      if (ok) modal.close()
+      if (ok) modal.close(true)
     } catch (err) {
       console.log(err)
     }

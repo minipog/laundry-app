@@ -8,26 +8,21 @@ import Col from 'react-bootstrap/Col'
 import Badge from 'react-bootstrap/Badge'
 import Accordion from 'react-bootstrap/Accordion'
 import { EQUIPMENT_TYPES, OWNERSHIP_TYPES } from '../../../../main/lib/enums'
-import useModal from '../../hooks/useModal'
-import { useEffect } from 'react'
-import { useParams } from 'react-router'
+import { useLoaderData } from 'react-router'
 import { Formik } from 'formik'
+import useModal from '../../hooks/useModal'
+
+// eslint-disable-next-line react-refresh/only-export-components
+export async function machineManageModalLoader({ params }) {
+  try {
+    return await window.api.getEquipment({ _id: params.id })
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 function MachineManageModal() {
-  const params = useParams()
-  const modal = useModal()
-
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const data = await window.api.getEquipment({ _id: params.id })
-        modal.set(true, ...JSON.parse(data))
-      } catch (err) {
-        console.log(err)
-      }
-    })()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.id, modal.navigate])
+  const modal = useModal(true, ...JSON.parse(useLoaderData()))
 
   async function saveMachine(values) {
     try {

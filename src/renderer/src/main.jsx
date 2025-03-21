@@ -8,7 +8,9 @@ import App from './App'
 import Loading from './components/Loading'
 import Dashboard from './components/Dashboard/Dashboard'
 import Machines, { machineLoader } from './components/Machines/Machines'
-import MachineManageModal from './components/Machines/MachineManageModal'
+import MachineManageModal, {
+  machineManageModalLoader
+} from './components/Machines/MachineManageModal'
 
 const router = createBrowserRouter([
   {
@@ -19,9 +21,15 @@ const router = createBrowserRouter([
       { index: true, element: <Dashboard /> },
       {
         path: '/machines',
-        element: <Machines />,
         loader: machineLoader,
-        children: [{ path: '/machines/manage/:id', element: <MachineManageModal /> }]
+        element: <Machines />,
+        children: [
+          {
+            path: '/machines/manage/:id',
+            loader: machineManageModalLoader,
+            element: <MachineManageModal />
+          }
+        ]
       }
     ]
   },

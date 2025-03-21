@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useNavigate, useRevalidator } from 'react-router'
 
-function useModal() {
-  const [show, setShow] = useState(false)
-  const [data, setData] = useState({})
+function useModal(isVisible = false, content = {}) {
+  const [show, setShow] = useState(isVisible)
+  const [data, setData] = useState(content)
   const navigate = useNavigate()
   const revalidator = useRevalidator()
 
@@ -14,8 +14,8 @@ function useModal() {
     },
     close: async function (revalidate) {
       if (revalidate) await revalidator.revalidate()
-      this.set(false, data)
       navigate(-1)
+      this.set(false)
     },
     show,
     data,

@@ -23,6 +23,11 @@ class BusinessManager extends EventEmitter {
     }
   }
 
+  async getLocation(query = {}) {
+    const location = await this.locations.find(query, { __v: 0 })
+    return JSON.stringify(location)
+  }
+
   async addEquipment(props = {}, isNew) {
     if (isNew) return await this.equipment.create(props)
 

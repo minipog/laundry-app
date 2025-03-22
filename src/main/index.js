@@ -88,6 +88,7 @@ app.whenReady().then(() => {
   ipcMain.handle('business:addEquipment', (_, values, isNew) =>
     businessManager.addEquipment(values, isNew)
   )
+  ipcMain.handle('business:getLocation', (_, query) => businessManager.getLocation(query))
 
   createWindow()
 

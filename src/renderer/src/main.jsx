@@ -7,10 +7,13 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import Loading from './components/Loading'
 import Dashboard from './components/Dashboard/Dashboard'
+import Locations, { locationLoader } from './components/Locations/Locations'
 import Machines, { machineLoader } from './components/Machines/Machines'
 import MachineManageModal, {
   machineManageModalLoader
 } from './components/Machines/MachineManageModal'
+import Inventory from './components/Inventory/Inventory'
+import Notes from './components/Notes/Notes'
 
 const router = createBrowserRouter([
   {
@@ -19,6 +22,11 @@ const router = createBrowserRouter([
     hydrateFallbackElement: <Loading defaultSpinner />,
     children: [
       { index: true, element: <Dashboard /> },
+      {
+        path: '/locations',
+        loader: locationLoader,
+        element: <Locations />
+      },
       {
         path: '/machines',
         loader: machineLoader,
@@ -30,6 +38,14 @@ const router = createBrowserRouter([
             element: <MachineManageModal />
           }
         ]
+      },
+      {
+        path: '/inventory',
+        element: <Inventory />
+      },
+      {
+        path: '/notes',
+        element: <Notes />
       }
     ]
   },

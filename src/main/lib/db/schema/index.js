@@ -42,7 +42,5 @@ export const equipmentSchema = new Schema({
 export const locationSchema = new Schema({
   name: { type: String, required: true },
   address: { type: String, required: true },
-  openingDate: { type: Date, required: true, default: () => Date.now() },
-  expenses: { type: [expenseSchema], default: [] },
-  equipment: { type: [equipmentSchema], default: [] }
+  openingDate: { type: Date, required: true, default: () => Date.now() }
 })

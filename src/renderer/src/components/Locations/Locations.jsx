@@ -3,9 +3,9 @@ import Stack from 'react-bootstrap/Stack'
 import LocationCard from './LocationCard'
 
 // eslint-disable-next-line react-refresh/only-export-components
-export async function locationLoader() {
+export async function locationsLoader() {
   try {
-    const data = await window.api.getLocation()
+    const data = await window.api.getLocations()
     return JSON.parse(data)
   } catch (err) {
     console.log(err)

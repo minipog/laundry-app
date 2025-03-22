@@ -95,7 +95,7 @@ function MachineManageModal() {
                       onChange={handleChange}
                       {...getFieldProps('lid')}
                     >
-                      <option value={values.lid}>Location Name</option>
+                      <option value={values.lid}>{values.lid}</option>
                       {/* {Object.entries(EQUIPMENT_TYPES).map(([_, type]) => (
                         <option key={_} value={type}>
                           {type}

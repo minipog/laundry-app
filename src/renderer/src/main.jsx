@@ -7,13 +7,14 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import Loading from './components/Loading'
 import Dashboard from './components/Dashboard/Dashboard'
-import Locations, { locationLoader } from './components/Locations/Locations'
+import Locations, { locationsLoader } from './components/Locations/Locations'
 import Machines, { machineLoader } from './components/Machines/Machines'
 import MachineManageModal, {
   machineManageModalLoader
 } from './components/Machines/MachineManageModal'
 import Inventory from './components/Inventory/Inventory'
-import Notes from './components/Notes/Notes'
+import Notes, { notesLoader } from './components/Notes/Notes'
+import NotFound from './components/NotFound'
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
       { index: true, element: <Dashboard /> },
       {
         path: '/locations',
-        loader: locationLoader,
+        loader: locationsLoader,
         element: <Locations />
       },
       {
@@ -45,11 +46,12 @@ const router = createBrowserRouter([
       },
       {
         path: '/notes',
+        loader: notesLoader,
         element: <Notes />
       }
     ]
   },
-  { path: '*', element: <div className="d-flex flex-column align-items-center">Not Found</div> }
+  { path: '*', element: <NotFound /> }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(

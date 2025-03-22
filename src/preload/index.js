@@ -5,7 +5,8 @@ import { electronAPI } from '@electron-toolkit/preload'
 const api = {
   getEquipment: (query) => ipcRenderer.invoke('business:getEquipment', query),
   addEquipment: (values, isNew) => ipcRenderer.invoke('business:addEquipment', values, isNew),
-  getLocation: (query) => ipcRenderer.invoke('business:getLocation', query)
+  getLocations: (query) => ipcRenderer.invoke('business:getLocations', query),
+  getNotes: (query) => ipcRenderer.invoke('business:getNotes', query)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

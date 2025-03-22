@@ -24,3 +24,8 @@ export const OWNERSHIP_TYPES = {
   OWNED: 'Owned',
   LEASE: 'Lease'
 }
+
+export const NOTE_STATUS_TYPES = {
+  PENDING: 'Pending',
+  RESOLVED: 'Resolved'
+}

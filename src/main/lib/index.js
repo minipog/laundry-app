@@ -1,5 +1,11 @@
 import dbConnect from './db/connection'
-import { expenseSchema, equipmentServiceSchema, equipmentSchema, locationSchema } from './db/schema'
+import {
+  expenseSchema,
+  equipmentServiceSchema,
+  equipmentSchema,
+  locationSchema,
+  noteSchema
+} from './db/schema'
 import { Types } from 'mongoose'
 import { EventEmitter } from 'events'
 
@@ -17,13 +23,14 @@ class BusinessManager extends EventEmitter {
       this.equipmentServices = this.db.model('EquipmentServices', equipmentServiceSchema)
       this.equipment = this.db.model('Equipment', equipmentSchema)
       this.locations = this.db.model('Locations', locationSchema)
+      this.notes = this.db.model('Notes', noteSchema)
       this.emit('ready')
     } catch (err) {
       this.emit('error', err.message)
     }
   }
 
-  async getLocation(query = {}) {
+  async getLocations(query = {}) {
     const location = await this.locations.find(query, { __v: 0 })
     return JSON.stringify(location)
   }
@@ -40,6 +47,11 @@ class BusinessManager extends EventEmitter {
   async getEquipment(query = {}) {
     const equipment = await this.equipment.find(query, { __v: 0 })
     return JSON.stringify(equipment)
+  }
+
+  async getNotes(query = {}) {
+    const note = await this.notes.find(query, { __v: 0 })
+    return JSON.stringify(note)
   }
 
   _makeObjectId(string) {

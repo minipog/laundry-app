@@ -1,5 +1,11 @@
 import { Schema } from 'mongoose'
-import { EQUIPMENT_TYPES, EXPENSE_TYPES, OWNERSHIP_TYPES, SERVICE_TYPES } from '../../enums'
+import {
+  EQUIPMENT_TYPES,
+  EXPENSE_TYPES,
+  OWNERSHIP_TYPES,
+  SERVICE_TYPES,
+  NOTE_STATUS_TYPES
+} from '../../enums'
 
 export const expenseSchema = new Schema({
   lid: Schema.Types.ObjectId,
@@ -43,4 +49,19 @@ export const locationSchema = new Schema({
   name: { type: String, required: true },
   address: { type: String, required: true },
   openingDate: { type: Date, required: true, default: () => Date.now() }
+})
+
+export const noteSchema = new Schema({
+  lid: Schema.Types.ObjectId,
+  title: { type: String, required: true },
+  author: { type: String, required: true },
+  body: String,
+  status: {
+    type: String,
+    required: true,
+    enum: Object.values(NOTE_STATUS_TYPES),
+    default: NOTE_STATUS_TYPES.PENDING
+  },
+  createdAt: { type: Date, default: () => Date.now() },
+  resolvedAt: Date
 })

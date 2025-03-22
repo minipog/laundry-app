@@ -2,7 +2,6 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
-import InputGroup from 'react-bootstrap/InputGroup'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Badge from 'react-bootstrap/Badge'
@@ -10,7 +9,9 @@ import Accordion from 'react-bootstrap/Accordion'
 import { EQUIPMENT_TYPES, OWNERSHIP_TYPES } from '../../../../main/lib/enums'
 import { useLoaderData } from 'react-router'
 import { Formik } from 'formik'
+import { useState } from 'react'
 import useModal from '../../hooks/useModal'
+import AlertMessage from '../AlertMessage'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export async function machineManageModalLoader({ params }) {
@@ -22,6 +23,7 @@ export async function machineManageModalLoader({ params }) {
 }
 
 function MachineManageModal() {
+  const [errorMessage, setErrorMessage] = useState(null)
   const modal = useModal(true, ...JSON.parse(useLoaderData()))
 
   async function saveMachine(values) {
@@ -29,7 +31,7 @@ function MachineManageModal() {
       const { ok } = await window.api.addEquipment(values, false)
       if (ok) modal.close(true)
     } catch (err) {
-      console.log(err)
+      setErrorMessage(err.message)
     }
   }
 
@@ -48,7 +50,7 @@ function MachineManageModal() {
               <Modal.Title>
                 <Row>
                   <Col>
-                    Machine Management (#{values.plateNumber} @ {values.locationName})
+                    Machine Management (#{values.plateNumber} @ {values.locationName || 'Unknown'})
                   </Col>
                   <Col xs="auto">
                     <Form.Switch
@@ -63,9 +65,16 @@ function MachineManageModal() {
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
+              {errorMessage && (
+                <Row>
+                  <Col>
+                    <AlertMessage message={errorMessage} />
+                  </Col>
+                </Row>
+              )}
               <Row className="mb-3">
                 <Col xs="auto">
-                  <FloatingLabel controlId="fl-s-machine-type" label="Machine type">
+                  <FloatingLabel controlId="fl-s-machine-type" label="Type">
                     <Form.Select
                       aria-label="Machine type select"
                       onChange={handleChange}
@@ -80,8 +89,23 @@ function MachineManageModal() {
                   </FloatingLabel>
                 </Col>
                 <Col>
-                  <InputGroup>
-                    <InputGroup.Text id="ig-serial-number">S/N:</InputGroup.Text>
+                  <FloatingLabel controlId="fl-s-machine-location" label="Location">
+                    <Form.Select
+                      aria-label="Machine location select"
+                      onChange={handleChange}
+                      {...getFieldProps('lid')}
+                    >
+                      <option value={values.lid}>Location Name</option>
+                      {/* {Object.entries(EQUIPMENT_TYPES).map(([_, type]) => (
+                        <option key={_} value={type}>
+                          {type}
+                        </option>
+                      ))} */}
+                    </Form.Select>
+                  </FloatingLabel>
+                </Col>
+                <Col>
+                  <FloatingLabel controlId="ig-serial-number" label="Serial Number">
                     <Form.Control
                       aria-label="S/N"
                       aria-describedby="ig-serial-number"
@@ -89,7 +113,22 @@ function MachineManageModal() {
                       onChange={handleChange}
                       {...getFieldProps('serialNumber')}
                     />
-                    <InputGroup.Text id="ig-model-name">Model:</InputGroup.Text>
+                  </FloatingLabel>
+                </Col>
+                <Col xs="2">
+                  <FloatingLabel controlId="ig-plate-number" label="Plate Number">
+                    <Form.Control
+                      aria-label="P/N"
+                      aria-describedby="ig-plate-number"
+                      onChange={handleChange}
+                      {...getFieldProps('plateNumber')}
+                    />
+                  </FloatingLabel>
+                </Col>
+              </Row>
+              <Row className="mb-3">
+                <Col xs="8">
+                  <FloatingLabel controlId="ig-model-name" label="Model">
                     <Form.Control
                       aria-label="Model"
                       aria-describedby="ig-model-name"
@@ -97,29 +136,34 @@ function MachineManageModal() {
                       onChange={handleChange}
                       {...getFieldProps('name')}
                     />
-                  </InputGroup>
+                  </FloatingLabel>
                 </Col>
-              </Row>
-              <Row className="mb-3">
-                <Col xs="auto">
-                  <InputGroup>
-                    <InputGroup.Text id="ig-model-capacity">Capacity:</InputGroup.Text>
+                <Col>
+                  <FloatingLabel controlId="ig-model-capacity" label="Capacity">
                     <Form.Control
                       aria-label="Capacity"
                       aria-describedby="ig-model-capacity"
                       onChange={handleChange}
                       {...getFieldProps('capacity')}
                     />
-                    <InputGroup.Text id="ig-model-price-per-wash">PPW:</InputGroup.Text>
+                  </FloatingLabel>
+                </Col>
+                <Col>
+                  <FloatingLabel controlId="ig-model-price-per-wash" label="PPC">
                     <Form.Control
-                      aria-label="Price per wash"
-                      aria-describedby="ig-model-price-per-wash"
+                      aria-label="Price per cycle"
+                      aria-describedby="ig-model-price-per-cycle"
                       onChange={handleChange}
                       {...getFieldProps('pricePerCycle')}
                     />
-                    <InputGroup.Text id="ig-model-ownership-type">Ownership:</InputGroup.Text>
+                  </FloatingLabel>
+                </Col>
+              </Row>
+              <Row className="mb-3">
+                <Col xs="4">
+                  <FloatingLabel controlId="ig-model-ownership-type" label="Ownership">
                     <Form.Select
-                      aria-label="Machine type select"
+                      aria-label="Machine ownership type select"
                       aria-describedby="ig-model-ownership-type"
                       onChange={handleChange}
                       {...getFieldProps('ownership.type')}
@@ -130,35 +174,53 @@ function MachineManageModal() {
                         </option>
                       ))}
                     </Form.Select>
-                    <InputGroup.Text id="ig-model-ownership-cost">Cost:</InputGroup.Text>
+                  </FloatingLabel>
+                </Col>
+                <Col xs="auto">
+                  <FloatingLabel controlId="ig-model-ownership-cost" label="Cost">
                     <Form.Control
                       aria-label="Cost"
                       aria-describedby="ig-model-ownership-cost"
                       onChange={handleChange}
                       {...getFieldProps('ownership.cost')}
                     />
-                  </InputGroup>
+                  </FloatingLabel>
                 </Col>
               </Row>
               {values.ownership.type === OWNERSHIP_TYPES.LEASE && (
                 <Row className="mb-3">
-                  <InputGroup>
-                    <InputGroup.Text id="ig-model-lease-provider">Lease Provider:</InputGroup.Text>
-                    <Form.Control
-                      aria-label="Lease Provider"
-                      aria-describedby="ig-model-lease-provider"
-                      onChange={handleChange}
-                      {...getFieldProps('ownership.lease.provider')}
-                    />
-                    <InputGroup.Text id="ig-model-lease-date">Lease Date:</InputGroup.Text>
-                    <Form.Control
-                      aria-label="Lease Date"
-                      aria-describedby="ig-model-lease-date"
-                      onChange={handleChange}
-                      placeholder="MM/DD/YY"
-                      {...getFieldProps('ownership.lease.startDate')}
-                    />
-                  </InputGroup>
+                  <Col>
+                    <FloatingLabel controlId="ig-model-lease-provider" label="Lease Provider">
+                      <Form.Control
+                        aria-label="Lease Provider"
+                        aria-describedby="ig-model-lease-provider"
+                        onChange={handleChange}
+                        {...getFieldProps('ownership.lease.provider')}
+                      />
+                    </FloatingLabel>
+                  </Col>
+                  <Col>
+                    <FloatingLabel controlId="ig-model-lease-start-date" label="Lease Start">
+                      <Form.Control
+                        aria-label="Lease Start"
+                        aria-describedby="ig-model-lease-start-date"
+                        onChange={handleChange}
+                        placeholder="MM/DD/YY"
+                        {...getFieldProps('ownership.lease.startDate')}
+                      />
+                    </FloatingLabel>
+                  </Col>
+                  <Col>
+                    <FloatingLabel controlId="ig-model-lease-end-date" label="Lease End">
+                      <Form.Control
+                        aria-label="Lease End"
+                        aria-describedby="ig-model-lease-end-date"
+                        onChange={handleChange}
+                        placeholder="MM/DD/YY"
+                        {...getFieldProps('ownership.lease.endDate')}
+                      />
+                    </FloatingLabel>
+                  </Col>
                 </Row>
               )}
               <Row>

@@ -26,7 +26,9 @@ export default function NoteCard({ ...props }) {
     <Card>
       <Card.Header style={{ background: cardVariables.background }}>
         Location Name
-        <small className="text-muted float-end">Status: {props.status}</small>
+        <small className="text-muted float-end">
+          Updated: {new Date(props.updatedAt).toLocaleString()} | Status: {props.status}
+        </small>
       </Card.Header>
       <Card.Body>
         <Card.Title>{props.title}</Card.Title>

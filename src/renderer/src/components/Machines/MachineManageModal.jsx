@@ -248,8 +248,8 @@ function MachineManageModal() {
                           <Row>
                             <Col>
                               <span className="text-muted">
-                                [{service.date}] <span className="fw-bold">{service.type}</span> by{' '}
-                                {service.provider.name} ({service.description})
+                                [{service.createdAt}]<span className="fw-bold">{service.type}</span>{' '}
+                                by {service.provider.name} ({service.description})
                               </span>
                             </Col>
                           </Row>

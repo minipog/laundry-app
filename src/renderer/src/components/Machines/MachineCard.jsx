@@ -3,27 +3,27 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import Button from 'react-bootstrap/Button'
 import { Link } from 'react-router'
 
-function MachineCard({ id, variant, imgSrc, header, title, text, info }) {
+function MachineCard({ ...props }) {
   return (
-    <Card bg={variant} className="me-3 border-0 shadow-sm" style={{ maxWidth: '18rem' }}>
-      {imgSrc && <Card.Img variant="top" src={imgSrc} />}
-      {header && <Card.Header>{header}</Card.Header>}
+    <Card bg={props?.variant} className="border-0 shadow-sm">
+      {props?.imgSrc && <Card.Img variant="top" src={props.imgSrc} />}
+      {props?.header && <Card.Header>{props.header}</Card.Header>}
       <Card.Body>
-        {title && <Card.Title>{title}</Card.Title>}
-        {text && <Card.Text>{text}</Card.Text>}
-        {info && (
+        {props?.title && <Card.Title>{props.title}</Card.Title>}
+        {props?.text && <Card.Text>{props.text}</Card.Text>}
+        {props?.info && (
           <ListGroup variant="flush">
-            {info.map((item, i) => (
-              <ListGroup.Item key={i} variant={variant} className="p-1 bg-transparent">
+            {props.info.map((item, i) => (
+              <ListGroup.Item key={i} variant={props?.variant} className="p-1 bg-transparent">
                 {item}
               </ListGroup.Item>
             ))}
           </ListGroup>
         )}
-        <Link to={`/machines/manage/${id}`}>
+        <Link to={`/machines/manage/${props?.id}`}>
           <Button
             className="mt-2 float-end"
-            variant={variant === 'warning' ? 'danger' : 'info'}
+            variant={props?.variant === 'warning' ? 'danger' : 'info'}
             size="sm"
           >
             Manage

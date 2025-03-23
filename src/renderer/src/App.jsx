@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router'
-import logoSvg from './assets/electron.svg'
+import hedgehogSvg from './assets/hedgehog.svg'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -12,7 +12,7 @@ function App() {
     <Container className="app vh-100" fluid>
       <Row>
         <Col>
-          <Header image={{ alt: '', src: logoSvg, width: 48, height: 48 }} />
+          <Header image={{ src: hedgehogSvg, alt: '🦔', width: 48, height: 48 }} />
         </Col>
       </Row>
       <Row style={{ paddingTop: 74 }}>

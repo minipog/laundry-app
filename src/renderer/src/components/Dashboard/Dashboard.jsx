@@ -25,11 +25,11 @@ function Dashboard() {
           subtitle={`${totalNonOperationalMachines} out of service`}
           important
         />
-        <InfoCard header="23% average usage" />
+        <InfoCard subtitle="23% average usage" />
       </CardGroup>
       <CardGroup>
-        <InfoCard title="Expected Revenue: xxxx" text="..." />
-        <InfoCard title="Expected Expenes: xxxx" text="..." />
+        <InfoCard header="Revenues" title="Expected Revenue: xxxx" text="..." />
+        <InfoCard header="Expenses" title="Expected Expenes: xxxx" text="..." />
       </CardGroup>
     </>
   )

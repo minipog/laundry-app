@@ -38,37 +38,6 @@ function createWindow() {
 
 const businessManager = new BusinessManager()
 
-businessManager.once('ready', async () => {
-  console.log('App: Database actions are ready for use')
-
-  // try {
-  //   await businessManager.addEquipment({
-  //     lid: businessManager._makeObjectId('67d4b72ac7b669b35f0ddf77'),
-  //     type: 'Washing Machine',
-  //     serialNumber: '',
-  //     name: 'Machine Three',
-  //     capacity: 8,
-  //     minutesPerCycle: 45,
-  //     powerUsagePerCycle: 0,
-  //     waterUsagePerCycle: 0,
-  //     pricePerCycle: 25,
-  //     ownership: {
-  //       type: 'Lease',
-  //       // lease: { provider: String, startDate: Date, endDate: Date },
-  //       cost: 200
-  //     },
-  //     // serviceHistory: { type: [equipmentServiceSchema], default: [] },
-  //     isOperational: false
-  //   })
-  // } catch ({ message }) {
-  //   console.log(message)
-  // }
-})
-
-businessManager.on('error', (errorMessage) => {
-  businessManager.terminate({ reason: errorMessage })
-})
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -83,6 +52,15 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
+  businessManager.once('ready', async () => {
+    console.log('App: Database actions are ready for use')
+    createWindow()
+  })
+
+  businessManager.on('error', (errorMessage) => {
+    businessManager.terminate({ reason: errorMessage })
+  })
+
   // IPC handlers
   ipcMain.handle('business:getDashboardData', () => businessManager.getDashboardData())
   ipcMain.handle('business:getEquipment', (_, query) => businessManager.getEquipment(query))
@@ -92,8 +70,6 @@ app.whenReady().then(() => {
   ipcMain.handle('business:getLocations', (_, query) => businessManager.getLocations(query))
   ipcMain.handle('business:getNotes', (_, query) => businessManager.getNotes(query))
   ipcMain.handle('business:toggleNoteStatus', (_, id) => businessManager.toggleNoteStatus(id))
-
-  createWindow()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

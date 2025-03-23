@@ -1,6 +1,6 @@
 import './assets/main.css'
 
-import { createBrowserRouter, RouterProvider } from 'react-router'
+import { createHashRouter, RouterProvider } from 'react-router'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
@@ -16,7 +16,7 @@ import Inventory from './components/Inventory/Inventory'
 import Notes, { notesLoader } from './components/Notes/Notes'
 import NotFound from './components/NotFound'
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: '/',
     element: <App />,

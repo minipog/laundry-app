@@ -3,6 +3,7 @@ import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
 const api = {
+  getDashboardData: () => ipcRenderer.invoke('business:getDashboardData'),
   getEquipment: (query) => ipcRenderer.invoke('business:getEquipment', query),
   addEquipment: (values, isNew) => ipcRenderer.invoke('business:addEquipment', values, isNew),
   getLocations: (query) => ipcRenderer.invoke('business:getLocations', query),

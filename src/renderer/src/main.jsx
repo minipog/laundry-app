@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom/client'
 
 import App from './App'
 import Loading from './components/Loading'
-import Dashboard from './components/Dashboard/Dashboard'
+import Dashboard, { dashboardLoader } from './components/Dashboard/Dashboard'
 import Locations, { locationsLoader } from './components/Locations/Locations'
 import Machines, { machineLoader } from './components/Machines/Machines'
 import MachineManageModal, {
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
     element: <App />,
     hydrateFallbackElement: <Loading defaultSpinner />,
     children: [
-      { index: true, element: <Dashboard /> },
+      { index: true, loader: dashboardLoader, element: <Dashboard /> },
       {
         path: '/locations',
         loader: locationsLoader,

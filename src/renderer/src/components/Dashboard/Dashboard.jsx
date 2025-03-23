@@ -1,8 +1,20 @@
 import Notice from './Notice'
 import InfoCard from './InfoCard'
 import CardGroup from 'react-bootstrap/CardGroup'
+import { useLoaderData } from 'react-router'
 
-function Dashboard({ totalLocations, totalMachines, nonOperationalMachineCount }) {
+// eslint-disable-next-line react-refresh/only-export-components
+export async function dashboardLoader() {
+  try {
+    return await window.api.getDashboardData()
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+function Dashboard() {
+  const { totalLocations, totalMachines, totalNonOperationalMachines } = useLoaderData()
+
   return (
     <>
       <Notice />
@@ -10,7 +22,7 @@ function Dashboard({ totalLocations, totalMachines, nonOperationalMachineCount }
         <InfoCard title={`${totalLocations} locations`} />
         <InfoCard
           title={`${totalMachines} machines`}
-          subtitle={`${nonOperationalMachineCount} out of service`}
+          subtitle={`${totalNonOperationalMachines} out of service`}
           important
         />
         <InfoCard header="23% average usage" />

@@ -31,6 +31,17 @@ class BusinessManager extends EventEmitter {
     }
   }
 
+  async getDashboardData() {
+    const promises = [
+      this.locations.countDocuments(),
+      this.equipment.countDocuments(),
+      this.equipment.countDocuments({ isOperational: false })
+    ]
+    const [totalLocations, totalMachines, totalNonOperationalMachines] = await Promise.all(promises)
+
+    return { totalLocations, totalMachines, totalNonOperationalMachines }
+  }
+
   async getLocations(query = {}) {
     const location = await this.locations.find(query, { __v: 0 })
     return JSON.stringify(location)

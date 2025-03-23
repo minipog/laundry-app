@@ -84,6 +84,7 @@ app.whenReady().then(() => {
   })
 
   // IPC handlers
+  ipcMain.handle('business:getDashboardData', () => businessManager.getDashboardData())
   ipcMain.handle('business:getEquipment', (_, query) => businessManager.getEquipment(query))
   ipcMain.handle('business:addEquipment', (_, values, isNew) =>
     businessManager.addEquipment(values, isNew)

@@ -22,7 +22,8 @@ export const equipmentServiceSchema = new Schema({
     name: String,
     contact: String
   },
-  description: String
+  description: String,
+  body: String
 })
 
 export const equipmentSchema = new Schema({
@@ -62,6 +63,6 @@ export const noteSchema = new Schema({
     enum: Object.values(NOTE_STATUS_TYPES),
     default: NOTE_STATUS_TYPES.PENDING
   },
-  createdAt: { type: Date, default: () => Date.now() },
-  resolvedAt: Date
+  createdAt: { type: Date, default: () => Date.now(), immutable: true },
+  modifiedAt: { type: Date, default: () => Date.now() }
 })

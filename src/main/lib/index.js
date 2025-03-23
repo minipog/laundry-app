@@ -8,6 +8,7 @@ import {
 } from './db/schema'
 import { Types } from 'mongoose'
 import { EventEmitter } from 'events'
+import { NOTE_STATUS_TYPES } from './enums'
 
 class BusinessManager extends EventEmitter {
   constructor() {
@@ -52,6 +53,19 @@ class BusinessManager extends EventEmitter {
   async getNotes(query = {}) {
     const note = await this.notes.find(query, { __v: 0 })
     return JSON.stringify(note)
+  }
+
+  async toggleNoteStatus(id) {
+    const note = await this.notes.findOne({ _id: id })
+    note.$set(
+      'status',
+      note.status === NOTE_STATUS_TYPES.PENDING
+        ? NOTE_STATUS_TYPES.RESOLVED
+        : NOTE_STATUS_TYPES.PENDING
+    )
+
+    await note.save()
+    return { ok: true }
   }
 
   _makeObjectId(string) {

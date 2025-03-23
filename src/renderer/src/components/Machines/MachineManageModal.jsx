@@ -226,9 +226,17 @@ function MachineManageModal() {
               <Row>
                 <Col className="d-flex justify-content-between align-items-start mb-0">
                   <h5 className="text-muted">Service history</h5>
-                  <Badge bg={modal.data.serviceHistory.length ? 'success' : 'secondary'} pill>
-                    {modal.data.serviceHistory.length}
-                  </Badge>
+                  <div>
+                    <Button as={Badge} variant="primary" className="me-2 p-2">
+                      Create
+                    </Button>
+                    <Badge
+                      bg={modal.data.serviceHistory.length ? 'success' : 'secondary'}
+                      className="p-2"
+                    >
+                      {modal.data.serviceHistory.length}
+                    </Badge>
+                  </div>
                 </Col>
               </Row>
               <Row>

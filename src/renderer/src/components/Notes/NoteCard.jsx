@@ -1,11 +1,30 @@
-import { Link } from 'react-router'
+import { useRevalidator } from 'react-router'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 
 export default function NoteCard({ ...props }) {
+  const revalidator = useRevalidator()
+  async function toggleNoteStatus(id) {
+    try {
+      const { ok } = await window.api.toggleNoteStatus(id)
+      if (ok) revalidator.revalidate()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const cardVariables = {
+    background: 'transparent',
+    btnVariant: 'outline-warning',
+    btnText: 'Append',
+    ...(props.status === 'Pending'
+      ? { background: '', btnVariant: 'outline-success', btnText: 'Resolve' }
+      : {})
+  }
+
   return (
     <Card>
-      <Card.Header>
+      <Card.Header style={{ background: cardVariables.background }}>
         Location Name
         <small className="text-muted float-end">Status: {props.status}</small>
       </Card.Header>
@@ -17,11 +36,14 @@ export default function NoteCard({ ...props }) {
           </small>
         </Card.Subtitle>
         <Card.Text>{props.body}</Card.Text>
-        <Link to="/notes">
-          <Button variant="outline-success" size="sm" className="float-end">
-            Resolve
-          </Button>
-        </Link>
+        <Button
+          variant={cardVariables.btnVariant}
+          size="sm"
+          className="float-end"
+          onClick={() => toggleNoteStatus(props._id)}
+        >
+          {cardVariables.btnText}
+        </Button>
       </Card.Body>
     </Card>
   )

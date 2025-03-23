@@ -3,7 +3,7 @@ import logoSvg from './assets/electron.svg'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Header from './components/Header'
+import Header from './components/Header/Header'
 import Footer from './components/Footer'
 import Menu from './components/Menu'
 
@@ -19,7 +19,7 @@ function App() {
         <Col md={3}>
           <Menu />
         </Col>
-        <Col className="pt-4">
+        <Col className="pt-4 me-2">
           <Outlet />
         </Col>
       </Row>

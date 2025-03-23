@@ -5,7 +5,7 @@ import { Link } from 'react-router'
 
 function MachineCard({ id, variant, imgSrc, header, title, text, info }) {
   return (
-    <Card bg={variant} className="mx-2 border-0 shadow-sm" style={{ maxWidth: '18rem' }}>
+    <Card bg={variant} className="me-3 border-0 shadow-sm" style={{ maxWidth: '18rem' }}>
       {imgSrc && <Card.Img variant="top" src={imgSrc} />}
       {header && <Card.Header>{header}</Card.Header>}
       <Card.Body>
@@ -14,7 +14,7 @@ function MachineCard({ id, variant, imgSrc, header, title, text, info }) {
         {info && (
           <ListGroup variant="flush">
             {info.map((item, i) => (
-              <ListGroup.Item variant={variant} className="p-1 bg-transparent" key={i}>
+              <ListGroup.Item key={i} variant={variant} className="p-1 bg-transparent">
                 {item}
               </ListGroup.Item>
             ))}

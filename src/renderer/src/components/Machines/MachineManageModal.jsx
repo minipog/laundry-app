@@ -149,7 +149,7 @@ function MachineManageModal() {
                   </FloatingLabel>
                 </Col>
                 <Col>
-                  <FloatingLabel controlId="ig-model-price-per-wash" label="PPC">
+                  <FloatingLabel controlId="ig-model-price-per-cycle" label="PPC">
                     <Form.Control
                       aria-label="Price per cycle"
                       aria-describedby="ig-model-price-per-cycle"

@@ -17,7 +17,7 @@ export default function Locations() {
   if (!locations.length) return
 
   return (
-    <Stack gap={3} className="me-2">
+    <Stack gap={3}>
       {locations.map((location, i) => (
         <LocationCard key={i} {...location} />
       ))}

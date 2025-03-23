@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card'
 
 function Notice() {
   return (
-    <Card>
+    <Card className="mb-3">
       <Card.Header as="h5">Notice</Card.Header>
       <Card.Body>
         <Card.Title>Supplies are running low</Card.Title>

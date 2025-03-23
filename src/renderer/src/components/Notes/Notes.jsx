@@ -17,7 +17,7 @@ export default function Notes() {
   if (!notes.length) return
 
   return (
-    <Stack gap={3} className="me-2">
+    <Stack gap={3}>
       {notes.map((note, i) => (
         <NoteCard key={i} {...note} />
       ))}

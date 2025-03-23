@@ -5,9 +5,9 @@ function Footer() {
   return (
     <Navbar className="footer" fixed="bottom">
       <Container fluid>
-        <Navbar.Collapse className="justify-content-end">
+        <Navbar.Collapse className="justify-content-end me-2">
           <Navbar.Text>
-            Signed in as: <a href="#login">Lior Samson</a>
+            Signed in as: <a href="#login">Lior S</a>
           </Navbar.Text>
         </Navbar.Collapse>
       </Container>

@@ -18,7 +18,7 @@ function Machines() {
 
   return (
     <>
-      <CardGroup className="me-3">
+      <CardGroup>
         {machines.map((machine) => (
           <MachineCard
             key={machine._id}

@@ -14,9 +14,7 @@ export default function LocationCard({ ...props }) {
         </small>
       </p>
       <Link to={`/locations/${props._id}`}>
-        <Button variant="outline-secondary" className="float-end">
-          View
-        </Button>
+        <Button variant="outline-secondary">➤</Button>
       </Link>
     </Card>
   )

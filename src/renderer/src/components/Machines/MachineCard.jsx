@@ -23,10 +23,10 @@ function MachineCard({ ...props }) {
         <Link to={`/machines/manage/${props?.id}`}>
           <Button
             className="mt-2 float-end"
-            variant={props?.variant === 'warning' ? 'danger' : 'info'}
+            variant={props?.variant === 'warning' ? 'outline-danger' : 'outline-info'}
             size="sm"
           >
-            Manage
+            ➟
           </Button>
         </Link>
       </Card.Body>

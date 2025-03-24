@@ -19,7 +19,7 @@ function App() {
         <Col md={3}>
           <Menu />
         </Col>
-        <Col className="pt-4 me-2">
+        <Col className="content my-4 me-2">
           <Outlet />
         </Col>
       </Row>

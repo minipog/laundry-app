@@ -9,6 +9,14 @@
   background: var(--color-background-mute);
   margin-left: 0px;
   padding-left: 0px;
+  overflow: hidden;
+
+  .content {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    overscroll-behavior: contain;
+    height: 80vh;
+  }
 }
 
 .logo {
@@ -44,7 +52,6 @@
 }
 
 .menu {
-  /* background: var(--ev-c-menu-1); */
   background: linear-gradient(var(--ev-c-menu-3), var(--ev-c-menu-1));
   height: calc(100vh - 74px);
   padding: 0;

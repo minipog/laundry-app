@@ -12,14 +12,13 @@ function createWindow() {
     height: 864,
     minHeight: 864,
     show: false,
+    frame: false,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }
   })
-
-  mainWindow.setMenuBarVisibility(false)
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()

@@ -7,8 +7,6 @@
 .app {
   color: var(--color-text);
   background: var(--color-background-mute);
-  margin-left: 0px;
-  padding-left: 0px;
   overflow: hidden;
 
   .content {
@@ -32,8 +30,14 @@
 }
 
 .header {
-  margin-bottom: 74px;
   background: var(--ev-c-header-bg);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+
+  .no-drag {
+    -webkit-app-region: no-drag;
+  }
 }
 
 .businessName {

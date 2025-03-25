@@ -9,17 +9,17 @@ import Menu from './components/Menu'
 
 function App() {
   return (
-    <Container className="app vh-100" fluid>
+    <Container className="app vh-100 px-0" fluid>
       <Row>
         <Col>
           <Header image={{ src: hedgehogSvg, alt: '🦔', width: 48, height: 48 }} />
         </Col>
       </Row>
-      <Row style={{ paddingTop: 74 }}>
+      <Row>
         <Col md={3}>
           <Menu />
         </Col>
-        <Col className="content my-4 me-2">
+        <Col className="content my-4 me-4">
           <Outlet />
         </Col>
       </Row>

@@ -4,19 +4,20 @@ import Form from 'react-bootstrap/Form'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Badge from 'react-bootstrap/Badge'
-import Accordion from 'react-bootstrap/Accordion'
 import { EQUIPMENT_TYPES, OWNERSHIP_TYPES } from '../../../../main/lib/enums'
 import { useLoaderData } from 'react-router'
 import { Formik } from 'formik'
 import { useState } from 'react'
 import useModal from '../../hooks/useModal'
 import AlertMessage from '../AlertMessage'
+import MachineServicesHistory from './MachineServicesHistory'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export async function machineManageModalLoader({ params }) {
   try {
-    return await window.api.getEquipment({ _id: params.id })
+    const equipment = await window.api.getEquipment({ _id: params.id })
+    const locations = await window.api.getLocations()
+    return { equipment, locations }
   } catch (err) {
     console.log(err)
   }
@@ -24,7 +25,8 @@ export async function machineManageModalLoader({ params }) {
 
 function MachineManageModal() {
   const [errorMessage, setErrorMessage] = useState(null)
-  const modal = useModal(true, ...JSON.parse(useLoaderData()))
+  const { equipment, locations } = useLoaderData()
+  const modal = useModal(true, ...JSON.parse(equipment))
 
   async function saveMachine(values) {
     try {
@@ -49,10 +51,8 @@ function MachineManageModal() {
             <Modal.Header closeButton>
               <Modal.Title>
                 <Row>
+                  <Col xs="auto">Machine Management (#{values.plateNumber})</Col>
                   <Col>
-                    Machine Management (#{values.plateNumber} @ {values.locationName || 'Unknown'})
-                  </Col>
-                  <Col xs="auto">
                     <Form.Switch
                       defaultChecked={values.isOperational}
                       isValid={values.isOperational}
@@ -88,19 +88,18 @@ function MachineManageModal() {
                     </Form.Select>
                   </FloatingLabel>
                 </Col>
-                <Col>
+                <Col xs="auto">
                   <FloatingLabel controlId="fl-s-machine-location" label="Location">
                     <Form.Select
                       aria-label="Machine location select"
                       onChange={handleChange}
                       {...getFieldProps('lid')}
                     >
-                      <option value={values.lid}>{values.lid}</option>
-                      {/* {Object.entries(EQUIPMENT_TYPES).map(([_, type]) => (
-                        <option key={_} value={type}>
-                          {type}
+                      {JSON.parse(locations).map((location, i) => (
+                        <option key={i} value={location._id}>
+                          {location.name}
                         </option>
-                      ))} */}
+                      ))}
                     </Form.Select>
                   </FloatingLabel>
                 </Col>
@@ -223,51 +222,7 @@ function MachineManageModal() {
                   </Col>
                 </Row>
               )}
-              <Row>
-                <Col className="d-flex justify-content-between align-items-start mb-0">
-                  <h5 className="text-muted">Service history</h5>
-                  <div>
-                    <Button as={Badge} variant="primary" className="me-2 p-2">
-                      Create
-                    </Button>
-                    <Badge
-                      bg={modal.data.serviceHistory.length ? 'success' : 'secondary'}
-                      className="p-2"
-                    >
-                      {modal.data.serviceHistory.length}
-                    </Badge>
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Accordion flush>
-                    {modal.data.serviceHistory.map((service, i) => (
-                      <Accordion.Item key={i} eventKey={service._id}>
-                        <Accordion.Header>
-                          <Row>
-                            <Col>
-                              <span className="text-muted">
-                                [{service.createdAt}]<span className="fw-bold">{service.type}</span>{' '}
-                                by {service.provider.name} ({service.description})
-                              </span>
-                            </Col>
-                          </Row>
-                        </Accordion.Header>
-                        <Accordion.Body className="pt-0">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                          veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                          velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                          cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                          est laborum.
-                        </Accordion.Body>
-                      </Accordion.Item>
-                    ))}
-                  </Accordion>
-                </Col>
-              </Row>
+              <MachineServicesHistory serviceHistory={values.serviceHistory} />
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={() => modal.close()}>

@@ -38,6 +38,13 @@
   .no-drag {
     -webkit-app-region: no-drag;
   }
+
+  .frame-btns {
+    margin-bottom: 0.5rem;
+    font-size: 28px;
+    color: lightslategray;
+    cursor: pointer;
+  }
 }
 
 .businessName {
@@ -57,7 +64,7 @@
 
 .menu {
   background: linear-gradient(var(--ev-c-menu-3), var(--ev-c-menu-1));
-  height: calc(100vh - 74px);
+  height: 100vh;
   padding: 0;
 }
 

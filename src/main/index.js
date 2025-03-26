@@ -73,6 +73,14 @@ app.whenReady().then(() => {
   ipcMain.handle('business:getNotes', (_, query) => businessManager.getNotes(query))
   ipcMain.handle('business:toggleNoteStatus', (_, id) => businessManager.toggleNoteStatus(id))
 
+  ipcMain.handle('app:close', () => BrowserWindow.getFocusedWindow().close())
+  ipcMain.handle('app:minimize', () => BrowserWindow.getFocusedWindow().minimize())
+  ipcMain.handle('app:maximize', () =>
+    BrowserWindow.getFocusedWindow().isMaximized()
+      ? BrowserWindow.getFocusedWindow().unmaximize()
+      : BrowserWindow.getFocusedWindow().maximize()
+  )
+
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.

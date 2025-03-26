@@ -1,18 +1,18 @@
-import { Outlet } from 'react-router'
-import hedgehogSvg from './assets/hedgehog.svg'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Header from './components/Header/Header'
 import Footer from './components/Footer'
 import Menu from './components/Menu'
+import hedgehogSvg from './assets/hedgehog.svg'
+import { Outlet } from 'react-router'
 
 function App() {
   return (
     <Container className="app vh-100 px-0" fluid>
       <Row>
         <Col>
-          <Header image={{ src: hedgehogSvg, alt: '🦔', width: 48, height: 48 }} />
+          <Header image={{ src: hedgehogSvg, alt: '🦔' }} />
         </Col>
       </Row>
       <Row>

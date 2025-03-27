@@ -1,20 +1,16 @@
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
-import iconDashboard from '../assets/icons/activity.svg'
-import iconLocations from '../assets/icons/pin-map.svg'
-import iconMachines from '../assets/icons/collection.svg'
-import iconInventory from '../assets/icons/checkmark.svg'
-import iconNotes from '../assets/icons/notes.svg'
 import { NavLink } from 'react-router'
+import Icon from './Icon'
 import Loading from './Loading'
 
 function Menu() {
   const links = [
-    { icon: iconDashboard, label: 'Dashboard', path: '/' },
-    { icon: iconLocations, label: 'Locations', path: '/locations' },
-    { icon: iconMachines, label: 'Machines', path: '/machines' },
-    { icon: iconInventory, label: 'Inventory', path: '/inventory' },
-    { icon: iconNotes, label: 'Notes', path: '/notes' }
+    { icon: 'Activity', label: 'Dashboard', path: '/' },
+    { icon: 'PinMap', label: 'Locations', path: '/locations' },
+    { icon: 'Collection', label: 'Machines', path: '/machines' },
+    { icon: 'ClipboardCheck', label: 'Inventory', path: '/inventory' },
+    { icon: 'CardList', label: 'Notes', path: '/notes' }
   ]
 
   return (
@@ -24,7 +20,7 @@ function Menu() {
           <NavLink key={i} to={link.path}>
             {({ isPending }) => (
               <div className="p-2">
-                <img src={link.icon} alt={link.label} />
+                <Icon iconName={link.icon} size={32} />
                 <span className="ms-3 fw-semibold">{link.label}</span>
                 {isPending && (
                   <span className="float-end">

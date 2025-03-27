@@ -55,12 +55,6 @@
   height: 100vh;
   padding: 0;
 
-  img {
-    height: 32px;
-    width: 32px;
-    filter: invert(97%) sepia(87%) saturate(86%) hue-rotate(186deg) brightness(114%) contrast(90%);
-  }
-
   a {
     cursor: pointer;
     text-decoration: none;

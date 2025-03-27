@@ -15,9 +15,11 @@ import MachineServicesHistory from './MachineServicesHistory'
 // eslint-disable-next-line react-refresh/only-export-components
 export async function machineManageModalLoader({ params }) {
   try {
-    const equipment = await window.api.getEquipment({ _id: params.id })
-    const locations = await window.api.getLocations()
-    return { equipment, locations }
+    return await Promise.all([
+      window.api.getLocations(),
+      window.api.getEquipment({ _id: params.id }),
+      window.api.getEquipmentServices({ mid: params.id })
+    ])
   } catch (err) {
     console.log(err)
   }
@@ -25,7 +27,7 @@ export async function machineManageModalLoader({ params }) {
 
 function MachineManageModal() {
   const [errorMessage, setErrorMessage] = useState(null)
-  const { equipment, locations } = useLoaderData()
+  const [locations, equipment, services] = useLoaderData()
   const modal = useModal(true, ...JSON.parse(equipment))
 
   async function saveMachine(values) {
@@ -40,9 +42,11 @@ function MachineManageModal() {
   return (
     <Modal
       size="lg"
+      dialogClassName="pt-4"
       show={modal.show}
       backdrop="static"
       keyboard={false}
+      scrollable
       onHide={() => modal.close()}
     >
       <Formik initialValues={modal.data} onSubmit={saveMachine}>
@@ -64,7 +68,7 @@ function MachineManageModal() {
                 </Row>
               </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className="modal-scrollable">
               {errorMessage && (
                 <Row>
                   <Col>
@@ -222,7 +226,12 @@ function MachineManageModal() {
                   </Col>
                 </Row>
               )}
-              <MachineServicesHistory serviceHistory={values.serviceHistory} />
+              <MachineServicesHistory
+                lid={values.lid}
+                mid={values._id}
+                services={JSON.parse(services)}
+                setErrorMessage={setErrorMessage}
+              />
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={() => modal.close()}>

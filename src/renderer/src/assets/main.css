@@ -78,6 +78,13 @@
   }
 }
 
+.modal-scrollable {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  overscroll-behavior: contain;
+  max-height: 70vh;
+}
+
 .accordion-button {
   background-color: transparent !important;
   line-height: 32px;

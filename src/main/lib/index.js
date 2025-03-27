@@ -61,6 +61,11 @@ class BusinessManager extends EventEmitter {
     return JSON.stringify(equipment)
   }
 
+  async getEquipmentServices(query = {}) {
+    const services = await this.equipmentServices.find(query, { __v: 0 })
+    return JSON.stringify(services)
+  }
+
   async getNotes(query = {}) {
     const note = await this.notes.find(query, { __v: 0 })
     return JSON.stringify(note)

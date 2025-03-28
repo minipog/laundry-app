@@ -72,6 +72,9 @@ app.whenReady().then(() => {
   ipcMain.handle('business:getEquipmentServices', (_, query) =>
     businessManager.getEquipmentServices(query)
   )
+  ipcMain.handle('business:addEquipmentService', (_, values, isNew) =>
+    businessManager.addEquipmentService(values, isNew)
+  )
   ipcMain.handle('business:getLocations', (_, query) => businessManager.getLocations(query))
   ipcMain.handle('business:getNotes', (_, query) => businessManager.getNotes(query))
   ipcMain.handle('business:toggleNoteStatus', (_, id) => businessManager.toggleNoteStatus(id))

@@ -22,7 +22,7 @@ export const equipmentServiceSchema = new Schema(
     mid: Schema.Types.ObjectId,
     type: { type: String, required: true, enum: Object.values(SERVICE_TYPES) },
     provider: {
-      name: String,
+      name: { type: String, required: true },
       contact: String
     },
     description: String,

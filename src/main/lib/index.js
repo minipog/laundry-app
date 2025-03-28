@@ -61,13 +61,22 @@ class BusinessManager extends EventEmitter {
     return JSON.stringify(equipment)
   }
 
+  async addEquipmentService(props = {}, isNew) {
+    if (isNew) return await this.equipmentServices.create(props)
+
+    const service = await this.equipmentServices.findOne({ _id: props._id })
+    Object.entries(props).forEach(([key, value]) => service.$set(key, value))
+    await service.save()
+    return { ok: true }
+  }
+
   async getEquipmentServices(query = {}) {
-    const services = await this.equipmentServices.find(query, { __v: 0 })
+    const services = await this.equipmentServices.find(query, { __v: 0 }).sort({ createdAt: -1 })
     return JSON.stringify(services)
   }
 
   async getNotes(query = {}) {
-    const note = await this.notes.find(query, { __v: 0 })
+    const note = await this.notes.find(query, { __v: 0 }).sort({ createdAt: -1 })
     return JSON.stringify(note)
   }
 

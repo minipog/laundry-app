@@ -31,10 +31,11 @@ export default function MachineServicesHistory({ ...props }) {
         </Col>
       </Row>
       <MachineServiceHistoryForm
-        show={showForm}
-        setShowForm={setShowForm}
         lid={props.lid}
         mid={props.mid}
+        show={showForm}
+        setShowForm={setShowForm}
+        setErrorMessage={props.setErrorMessage}
       />
       <Row>
         <Col>
@@ -47,7 +48,7 @@ export default function MachineServicesHistory({ ...props }) {
                       <span className="text-muted">
                         [{new Date(service.createdAt).toLocaleString()}]{' '}
                         <span className="fw-bold">{service.type}</span> by {service.provider.name}
-                        {service.description && `(${service.description})`}
+                        {service.description && ` (${service.description})`}
                       </span>
                     </Col>
                   </Row>

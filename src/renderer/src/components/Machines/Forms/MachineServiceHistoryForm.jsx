@@ -3,11 +3,23 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import { CheckSquare, XSquare } from 'react-bootstrap-icons'
+import { useRevalidator } from 'react-router'
 import { SERVICE_TYPES } from '../../../../../main/lib/enums'
 import { Formik } from 'formik'
 
 export default function MachineServiceHistoryForm({ ...props }) {
+  const revalidator = useRevalidator()
   if (!props.show) return
+
+  async function saveService(values) {
+    try {
+      await window.api.addEquipmentService(values, true)
+      await revalidator.revalidate()
+      props.setShowForm(false)
+    } catch (err) {
+      props.setErrorMessage(err.message)
+    }
+  }
 
   return (
     <Formik
@@ -19,10 +31,10 @@ export default function MachineServiceHistoryForm({ ...props }) {
         description: '',
         body: ''
       }}
-      onSubmit={console.log}
+      onSubmit={saveService}
     >
       {({ handleSubmit, handleChange, getFieldProps, isSubmitting }) => (
-        <Form autoComplete="off">
+        <>
           <Row className="my-3">
             <Col xs="auto">
               <FloatingLabel controlId="fl-s-service-type" label="Type">
@@ -86,7 +98,7 @@ export default function MachineServiceHistoryForm({ ...props }) {
               <XSquare size={32} color="royalblue" onClick={() => props.setShowForm(false)} />
             </Col>
           </Row>
-        </Form>
+        </>
       )}
     </Formik>
   )

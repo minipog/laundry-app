@@ -7,6 +7,8 @@ const api = {
   getEquipment: (query) => ipcRenderer.invoke('business:getEquipment', query),
   addEquipment: (values, isNew) => ipcRenderer.invoke('business:addEquipment', values, isNew),
   getEquipmentServices: (query) => ipcRenderer.invoke('business:getEquipmentServices', query),
+  addEquipmentService: (values, isNew) =>
+    ipcRenderer.invoke('business:addEquipmentService', values, isNew),
   getLocations: (query) => ipcRenderer.invoke('business:getLocations', query),
   getNotes: (query) => ipcRenderer.invoke('business:getNotes', query),
   toggleNoteStatus: (id) => ipcRenderer.invoke('business:toggleNoteStatus', id),

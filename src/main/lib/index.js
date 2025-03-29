@@ -48,7 +48,10 @@ class BusinessManager extends EventEmitter {
   }
 
   async addEquipment(props = {}, isNew) {
-    if (isNew) return await this.equipment.create(props)
+    if (isNew) {
+      await this.equipment.create(props)
+      return { ok: true }
+    }
 
     const equipment = await this.equipment.findOne({ _id: props._id })
     Object.entries(props).forEach(([key, value]) => equipment.$set(key, value))
@@ -62,7 +65,10 @@ class BusinessManager extends EventEmitter {
   }
 
   async addEquipmentService(props = {}, isNew) {
-    if (isNew) return await this.equipmentServices.create(props)
+    if (isNew) {
+      await this.equipmentServices.create(props)
+      return { ok: true }
+    }
 
     const service = await this.equipmentServices.findOne({ _id: props._id })
     Object.entries(props).forEach(([key, value]) => service.$set(key, value))

@@ -1,10 +1,10 @@
+import { useState } from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
 import Accordion from 'react-bootstrap/Accordion'
 import MachineServiceHistoryForm from './Forms/MachineServiceHistoryForm'
-import { useState } from 'react'
 
 export default function MachineServicesHistory({ ...props }) {
   const [showForm, setShowForm] = useState(false)
@@ -18,11 +18,11 @@ export default function MachineServicesHistory({ ...props }) {
           <div>
             <Button
               as={Badge}
-              variant="primary"
-              onClick={() => setShowForm(true)}
-              className="me-2 p-2"
+              variant="secondary"
+              onClick={() => setShowForm(showForm ? false : true)}
+              className="me-2 p-2 bg-transparent text-muted"
             >
-              Create
+              Create Service
             </Button>
             <Badge bg={props.services.length ? 'success' : 'secondary'} className="p-2">
               {props.services.length}

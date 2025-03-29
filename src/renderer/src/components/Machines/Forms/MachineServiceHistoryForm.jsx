@@ -2,7 +2,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
-import { CheckSquare, XSquare } from 'react-bootstrap-icons'
+import { CheckSquare } from 'react-bootstrap-icons'
 import { useRevalidator } from 'react-router'
 import { SERVICE_TYPES } from '../../../../../main/lib/enums'
 import { Formik } from 'formik'
@@ -33,7 +33,7 @@ export default function MachineServiceHistoryForm({ ...props }) {
       }}
       onSubmit={saveService}
     >
-      {({ handleSubmit, handleChange, getFieldProps, isSubmitting }) => (
+      {({ handleSubmit, handleChange, getFieldProps }) => (
         <>
           <Row className="my-3">
             <Col xs="auto">
@@ -94,8 +94,7 @@ export default function MachineServiceHistoryForm({ ...props }) {
               </FloatingLabel>
             </Col>
             <Col xs="auto" className="ms-auto d-flex gap-2">
-              <CheckSquare size={32} color="royalblue" onClick={handleSubmit} />
-              <XSquare size={32} color="royalblue" onClick={() => props.setShowForm(false)} />
+              <CheckSquare role="button" size={32} color="green" onClick={handleSubmit} />
             </Col>
           </Row>
         </>
